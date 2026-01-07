@@ -4,7 +4,7 @@
   "description": "Convert VS Code extensions to Cursor.",
   "main": "index.js",
   "scripts": {
-    "dev": "live-server website --port=1234"
+    "dev": "live-server docs --port=1234"
   },
   "keywords": [],
   "author": "",
