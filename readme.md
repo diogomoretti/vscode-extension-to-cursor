@@ -26,5 +26,5 @@ No configuration needed. No command line required. Just paste, download, and dro
 
 ## License
 
-This project is licensed under the MIT License - see the [license.md](license.md) file for details.
+[MIT License](license.md)
 
