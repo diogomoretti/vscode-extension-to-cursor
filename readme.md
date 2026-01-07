@@ -1,8 +1,8 @@
 <img src="docs/logo.png" alt="VS Code Extension Converter" width="120">
 
-# VS Code Extension Converter
+# VS Code Extension to Cursor
 
-A simple web tool to convert and download VS Code extensions for use in [Cursor](https://cursor.com).
+A simple [web tool](https://diogomoretti.github.io/vscode-extension-to-cursor/) to convert and download VS Code extensions for use in [Cursor](https://cursor.com).
 
 ## Why?
 
