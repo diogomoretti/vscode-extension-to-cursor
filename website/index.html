@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔄</text></svg>">
+
+  <title>VS Code Extension Converter</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-primary: oklch(0.514 0.2544 285.71);
+      --color-primary-dark: oklch(from var(--color-primary) calc(l + 0.1) c h);
+      --color-secondary: #fff;
+
+      --color-text: #666;
+      --color-title: #333;
+      --color-border: #e0e0e0;
+    }
+
+    ::selection {
+      background: var(--color-primary);
+      color: var(--color-secondary);
+    }
+
+    *, 
+    ::before, 
+    ::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 11px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-text-size-adjust: 100%;
+      font-variant-ligatures: none;
+      cursor: default;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: radial-gradient(125% 125% at 50% 10%, var(--color-secondary) 40%, var(--color-primary) 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .container {
+      background: var(--color-secondary);
+      padding: 4rem;
+      border-radius: 16px;
+      max-width: 70rem;
+      width: 100%;
+    }
+
+    h1 {
+      font-weight: 900;
+      color: var(--color-title);
+      margin-bottom: .5rem;
+      font-size: 3rem;
+    }
+
+    p {
+      color: var(--color-text);
+      margin-bottom: 3rem;
+      font-size: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .input-group {
+      width: 100%;
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .input-col {
+      width: 100%;
+      flex: 1;
+
+      &.version {
+        width: 100%;
+        flex: 0;
+        flex-basis: 9rem;
+      }
+    }
+
+    label {
+      display: block;
+      margin-bottom: .5rem;
+      color: var(--color-title);
+      font-weight: 500;
+      font-size: 1.4rem;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 1.2rem 1.6rem;
+      border: 2px solid var(--color-border);
+      border-radius: 0.8rem;
+      font-size: 1.6rem;
+      transition: all 0.3s ease;
+      outline: none;
+
+      &:focus {
+        border-color: var(--color-primary);
+      }
+
+      &::placeholder {
+        color: #aaa;
+      }
+    }
+
+    @property --new-stop {
+      syntax: "<percentage>";
+      inherits: false;
+      initial-value: 100%;
+    }
+
+    button {
+      width: 100%;
+      padding: 1.4rem;
+      background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) var(--new-stop));
+      color: var(--color-secondary);
+      border: none;
+      border-radius: 0.8rem;
+      font-size: 1.6rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: --new-stop .3s ease;
+
+      &:hover {
+        --new-stop: 300%;
+      }
+    }
+
+    .message {
+      margin-top: 2rem;
+      padding: 1.2rem 1.6rem;
+      border-radius: 0.8rem;
+      font-size: 1.4rem;
+      display: none;
+
+      &.success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      &.error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      &.display {
+        display: block;
+      }
+    }
+
+    .example {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: .8rem;
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 2rem;
+      font-family: monospace;
+    }
+
+    .logo {
+      width: 100px;
+      height: auto;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="./logo.png" alt="Logo" class="logo">
+    <h1>VS Code Extension Converter</h1>
+    <p>
+      <strong>Convert VS Code extensions to Cursor.</strong>
+      <br />
+      After the download, just drop the .vsix file in the Cursor extensions side panel.
+    </p>
+
+    <div class="input-group">
+      <div class="input-col">
+        <label for="extensionUrl">Extension URL</label>
+        <input 
+          id="extensionUrl" 
+          type="text" 
+          placeholder="Paste the extension URL here"
+          autocomplete="off"
+        >
+      </div>
+      <div class="input-col version">
+        <label for="version">Version</label>
+        <input 
+          id="version" 
+          type="text" 
+          value="latest" 
+          placeholder="latest"
+        >
+      </div>
+    </div>
+
+    <div class="example">
+      Example: https://marketplace.visualstudio.com/items?itemName=publisher.item
+    </div>
+
+    <button class="convert-button">
+      Convert and Download
+    </button>
+
+    <div id="message" class="message"></div>
+  </div>
+
+  <script>
+    async function convertAndDownload() {
+      const urlInput = document.getElementById('extensionUrl').value.trim();
+      const version = document.getElementById('version').value.trim() || 'latest';
+      const messageDiv = document.getElementById('message');
+
+      messageDiv.style.display = 'none';
+      messageDiv.className = 'message';
+
+      if (!urlInput) {
+        showMessage('Please paste the extension URL.', 'error');
+        return;
+      }
+
+      const regex = /itemName=([^&\s]+)/;
+      const match = urlInput.match(regex);
+
+      if (!match) {
+        showMessage('Invalid URL. Please ensure it contains "itemName=".', 'error');
+        return;
+      }
+
+      const itemName = match[1];
+      const parts = itemName.split('.');
+
+      if (parts.length < 2) {
+        showMessage('Invalid format. The itemName must contain publisher.item', 'error');
+        return;
+      }
+
+      const publisher = parts[0];
+      const item = parts.slice(1).join('.');
+
+      const downloadUrl = `https://marketplace.visualstudio.com/_apis/public/gallery/publishers/${publisher}/vsextensions/${item}/${version}/vspackage`;
+
+      const exists = await verifyUrl(downloadUrl);
+
+      if (!exists) {
+        showMessage("Extension not found.", 'error');
+        return;
+      }
+
+      showMessage(`Starting download... (${publisher}.${item} v${version})`, 'success');
+
+      setTimeout(() => {
+        window.location.href = downloadUrl;
+        showMessage("Download completed.", 'success');
+      }, 1000);
+    }
+
+    async function verifyUrl(url) {
+      try {
+        const response = await fetch(url);
+        
+        if (response.ok) {
+          return true;
+        } else if (response.status === 404) {
+          return false;
+        } else {
+          return false;
+        }
+      } catch (error) {
+        return false;
+      }
+    }
+
+    function showMessage(text, type) {
+      const messageDiv = document.getElementById('message');
+      messageDiv.textContent = text;
+      messageDiv.className = `message ${type}`;
+      messageDiv.style.display = 'block';
+    }
+
+    document.getElementById('extensionUrl').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        convertAndDownload();
+      }
+    });
+
+    document.getElementById('version').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        convertAndDownload();
+      }
+    });
+
+    document.querySelector('.convert-button').addEventListener('click', convertAndDownload);
+  </script>
+</body>
+</html>
