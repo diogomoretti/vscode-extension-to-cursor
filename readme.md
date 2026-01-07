@@ -27,4 +27,3 @@ No configuration needed. No command line required. Just paste, download, and dro
 ## License
 
 [MIT License](license.md)
-
